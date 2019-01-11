@@ -115,13 +115,21 @@ textarea {
 			background-color: #FFF;
 			border: solid 1px #CCC;
 			position: absolute;
-			top: 470px;
+			top: 270px;
 			left: 0;
 			right: 0;
+			-webkit-transition: all 0.3s;
+			visibility: hidden;
+			opacity: 0;
 
 			p {
 				padding: 25px;
 			}
+		}
+
+		.show {
+			visibility: visible;
+			opacity: 1;
 		}
 	}
 }

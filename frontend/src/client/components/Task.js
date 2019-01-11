@@ -11,7 +11,8 @@ class Task extends React.Component {
 
 	handleRemoveTask() {
 		axios.delete(`http://localhost:3001/tasks/${this.props.id}`).then(response => {
-			console.log(response.data);
+			this.props.triggerGetTasks();
+			this.props.triggerMessage(response.data.message);
 		})
 		.catch(err => console.log(err));
 	}

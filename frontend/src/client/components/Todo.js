@@ -32,18 +32,18 @@ class Todo extends React.Component {
 			return console.log('Es necesario especificar un titulo y una descripción');
 		}
 		axios.post('http://localhost:3001/tasks', { title, description }).then(response => {
-			this.state.message = response.data.message;
+			this.showAndRemoveMessage(response.data.message);
 			this.setState({ title: '', description: '' });
 			
 			document.getElementById('title').value = '';
 			document.getElementById('description').value = '';
 
-			this.componentDidMount();
+			this.getTasks();
 		})
 		.catch(err => console.log(err));
 	}
 
-	componentDidMount() {
+	getTasks() {
 		axios.get('http://localhost:3001/tasks').then(response => {
 			this.setState({
 				tasks: response.data
@@ -52,8 +52,22 @@ class Todo extends React.Component {
 		.catch(err => console.log(err));
 	}
 
+	showAndRemoveMessage(message) {
+		this.state.message = message;
+		setTimeout(() => {
+			this.setState({
+				message: ''
+			});
+		}, 3000)
+	}
+
+	componentDidMount() {
+		this.getTasks();
+	}
+
 	render() {
-		let taskComponents = this.state.tasks.map( task => <Task key={task._id} id={task._id} title={task.title} description={task.description} /> );
+		let taskComponents = this.state.tasks.map( task => <Task key={task._id} id={task._id} title={task.title} description={task.description} triggerGetTasks={this.getTasks.bind(this)} triggerMessage={this.showAndRemoveMessage.bind(this)} /> );
+		let notification = this.state.message.length ? <Notification message={this.state.message} /> : '';
 		return (
 			<div id="todo">
 				<div className="field-content">
@@ -66,6 +80,7 @@ class Todo extends React.Component {
 						{ taskComponents }
 					</ul>
 				</div>
+				{ notification }
 			</div>
 		);
 	}
