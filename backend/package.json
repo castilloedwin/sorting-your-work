@@ -1,0 +1,17 @@
+{
+  "name": "coffee-break",
+  "version": "1.0.0",
+  "description": "This is the back-end to app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Edwin Castillo",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10"
+  }
+}

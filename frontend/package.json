@@ -1,0 +1,36 @@
+{
+  "name": "coffee-break",
+  "version": "1.0.0",
+  "description": "Coffee Break is a app to get coffee easily. You only must install the app, register you and OK.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
+  },
+  "keywords": [
+    "coffee"
+  ],
+  "author": "Edwin Castillo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.3",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-livereload-plugin": "^2.2.0"
+  }
+}
