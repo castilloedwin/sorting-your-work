@@ -21,7 +21,7 @@ ul, ol {
 	list-style: none;
 }
 
-input[type="text"], input[type="number"], textarea {
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
 	font-family: 'Hind', sans-serif;
 	font-size: 1em;
 	border: none;
@@ -108,28 +108,45 @@ textarea {
 				}
 			}
 		}
+	}
 
-		.notification {
-			width: 300px;
-			margin: 0 auto;
-			background-color: #FFF;
-			border: solid 1px #CCC;
-			position: absolute;
-			top: 270px;
-			left: 0;
-			right: 0;
-			-webkit-transition: all 0.3s;
-			visibility: hidden;
-			opacity: 0;
+	.notification {
+		width: 300px;
+		margin: 0 auto;
+		background-color: #FFF;
+		border: solid 1px #CCC;
+		position: absolute;
+		top: 270px;
+		left: 0;
+		right: 0;
+		-webkit-transition: all 0.3s;
+		visibility: hidden;
+		opacity: 0;
 
-			p {
-				padding: 25px;
-			}
+		p {
+			padding: 25px;
 		}
+	}
 
-		.show {
-			visibility: visible;
-			opacity: 1;
+	.show {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	#register {
+		width: 800px;
+		margin: 0 auto;
+
+		#register-form {
+			.field-container {
+				margin-bottom: 10px;
+
+				.input-form {
+					width: 100%;
+					padding: 15px;
+					border: solid 1px #CCC;
+				}
+			}
 		}
 	}
 }

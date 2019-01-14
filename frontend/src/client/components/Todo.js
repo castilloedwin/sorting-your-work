@@ -53,12 +53,12 @@ class Todo extends React.Component {
 	}
 
 	showAndRemoveMessage(message) {
-		this.state.message = message;
+		this.setState({ message });
 		setTimeout(() => {
 			this.setState({
 				message: ''
 			});
-		}, 3000)
+		}, 3000);
 	}
 
 	componentDidMount() {
