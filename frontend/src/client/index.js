@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './components/Header';
 import Register from './components/Register';
+import Login from './components/Login';
 import Todo from './components/Todo';
 import './assets/css/main.scss';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
@@ -13,6 +14,7 @@ class App extends React.Component {
 				<div>
 					<Header />
 					<Route exact path="/" component={Register} />
+					<Route path="/login" component={Login} />
 					<Route path="/todo" component={Todo} />
 				</div>
 			</Router>
