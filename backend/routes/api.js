@@ -6,7 +6,7 @@ const tokenVerification = require('../app/middlewares/auth');
 
 const api = (app, db) => {
 
-	app.get('/tasks', tokenVerification, (req, res) => {
+	app.get('/tasks', (req, res) => {
 		db.db().collection('tasks').find({}).sort({ _id: -1 }).toArray((err, tasks) => {
 			if (err) {
 				return res.status(200).json({
@@ -14,7 +14,7 @@ const api = (app, db) => {
 				});
 			}
 
-			return res.status(200).json({tasks, user: req.user});
+			return res.status(200).json(tasks);
 		});
 	});
 

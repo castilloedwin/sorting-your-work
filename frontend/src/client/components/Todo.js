@@ -29,7 +29,7 @@ class Todo extends React.Component {
 		e.preventDefault();
 		const { title, description } = this.state;
 		if ( !title || !description ) {
-			return console.log('Es necesario especificar un titulo y una descripción');
+			return this.showAndRemoveMessage('Es necesario especificar un titulo y una descripción');
 		}
 		axios.post('http://localhost:3001/tasks', { title, description }).then(response => {
 			this.showAndRemoveMessage(response.data.message);
