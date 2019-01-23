@@ -2,18 +2,18 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const objectID = require('mongodb').ObjectID;
 const config = require('../config');
-const tokenVerification = require('../app/middlewares/auth');
 
 const api = (app, db) => {
 
-	app.get('/tasks', (req, res) => {
+	const tokenVerification = require('../app/middlewares/auth')(db);
+
+	app.get('/tasks', tokenVerification, (req, res) => {
 		db.db().collection('tasks').find({}).sort({ _id: -1 }).toArray((err, tasks) => {
 			if (err) {
-				return res.status(200).json({
+				return res.status(400).json({
 					err
 				});
 			}
-
 			return res.status(200).json(tasks);
 		});
 	});
@@ -114,14 +114,17 @@ const api = (app, db) => {
 
 			if ( !user ) return res.status(400).json({ message: 'No se encontró este usuario' });
 
-			if ( !bcrypt.compareSync(password, user.password) ) {
-				return res.status(400).json({ message: 'La contraseña es incorrecta' });
+			try {
+				if ( !bcrypt.compareSync(password, user.password) ) {
+					return res.status(400).json({ message: 'La contraseña es incorrecta' });
+				}
+			} catch (err) {
+				return console.log(err);
 			}
 
-			let { _id, username, name, last_name } = user;
-
 			let token = jwt.sign({
-				user: { _id, username, name, last_name }
+				sub: user._id,
+				iat: new Date().getTime()
 			}, config.token_seed, { expiresIn: config.token_expire });
 
 			return res.status(200).json({

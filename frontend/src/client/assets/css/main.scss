@@ -37,13 +37,37 @@ textarea {
 
 	header {
 		width: 100%;
+		padding: 10px;
 		margin-bottom: 30px;
 		background-color: #242424;
 
 		h1 {
-			padding: 10px;
 			color: #FFF;
 			text-align: center;
+		}
+
+		ul {
+			text-align: center;
+
+			li {
+				display: inline-block;
+				vertical-align: middle;
+
+				&:not(:last-child) {
+					margin-right: 10px;
+					padding-right: 10px;
+					border-right: solid 1px #CCC;
+				}
+
+				a {
+					color: #FFF;
+					text-decoration: none;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
 		}
 	}
 
