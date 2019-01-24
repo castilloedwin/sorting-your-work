@@ -7,7 +7,7 @@ const api = (app, db) => {
 
 	const tokenVerification = require('../app/middlewares/auth')(db);
 
-	app.get('/tasks', tokenVerification, (req, res) => {
+	app.get('/tasks', (req, res) => {
 		db.db().collection('tasks').find({}).sort({ _id: -1 }).toArray((err, tasks) => {
 			if (err) {
 				return res.status(400).json({
@@ -61,7 +61,34 @@ const api = (app, db) => {
 			return res.status(200).json({
 				message: 'Tarea eliminada',
 				status: 200
-			})
+			});
+		});
+	});
+
+	app.get('/comments', (req, res) => {
+		db.db().collection('comments').find({}).sort({ _id: -1 }).toArray((err, comments) => {
+			if (err) {
+				return res.status(500).json({
+					err
+				});
+			}
+
+			res.status(200).json(comments);
+		});
+	});
+
+	app.post('/comments', tokenVerification, (req, res) => {
+		db.db().collection('comments').insertOne(req.body, (err, comment) => {
+			if (err) {
+				return res.status(500).json({
+					err
+				});
+			}
+
+			res.status(201).json({
+				message: 'Se insertó el comentario correctamente',
+				status: 201
+			});
 		});
 	});
 

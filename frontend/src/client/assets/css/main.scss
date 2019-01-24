@@ -97,11 +97,11 @@ textarea {
 		}
 
 		.task-list-content {
-			background-color: #FFF;
 
 			ul {
 				li {
-					padding: 15px;
+					margin-bottom: 10px;
+					background-color: #FFF;
 					overflow: hidden;
 
 					&:not(:last-child) {
@@ -123,11 +123,28 @@ textarea {
 
 					span {
 						width: 90%;
+						padding: 15px;
 					}
 
 					span, i {
 						display: inline-block;
 						vertical-align: middle;
+					}
+
+					.content-comments {
+						background-color: #F7F7F7;
+
+						.comment {
+							padding: 8px 25px;
+
+							p {
+								font-size: 0.9em;
+							}
+
+							&:not(:last-child) {
+								border-bottom: solid 1px #CCC;
+							}
+						}
 					}
 				}
 			}
