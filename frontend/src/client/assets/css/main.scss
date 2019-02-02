@@ -131,7 +131,31 @@ textarea {
 						vertical-align: middle;
 					}
 
-					.content-comments {
+					.comment-box {
+						textarea {
+							width: 100%;
+							margin-bottom: 5px;
+							padding: 10px;
+							font-size: 0.9em;
+							border: solid 1px #DADADA;
+							display: block;
+						}
+
+						button {
+							margin-bottom: 5px;
+							padding: 10px 15px;
+							background-color: #59C9A5;
+							color: #FFF;
+							border: none;
+							cursor: pointer;
+
+							&:hover {
+								background-color: darken(#59C9A5, 10%);
+							}
+						}
+					}
+
+					.comment-to-content {
 						background-color: #F7F7F7;
 
 						.comment {

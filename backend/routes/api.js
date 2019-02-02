@@ -8,7 +8,27 @@ const api = (app, db) => {
 	const tokenVerification = require('../app/middlewares/auth')(db);
 
 	app.get('/tasks', (req, res) => {
-		db.db().collection('tasks').find({}).sort({ _id: -1 }).toArray((err, tasks) => {
+		db.db().collection('tasks').aggregate([
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'user_id',
+					foreignField: '_id',
+					as: 'users'
+				}
+			},
+			{
+				$project: {
+					user_id: false
+				}
+			},
+			{
+				$project: {
+					'users.password': false,
+					'users.email': false
+				}
+			}
+		]).sort({ _id: -1 }).toArray((err, tasks) => {
 			if (err) {
 				return res.status(400).json({
 					err
@@ -34,8 +54,13 @@ const api = (app, db) => {
 		});
 	});
 
-	app.post('/tasks', (req, res) => {
-		db.db().collection('tasks').insertOne(req.body, (err, task) => {
+	app.post('/tasks', tokenVerification, (req, res) => {
+		const _task = {
+			user_id: req.user._id,
+			title: req.body.title,
+			description: req.body.description
+		}
+		db.db().collection('tasks').insertOne(_task, (err, task) => {
 			if (err) {
 				return res.status(500).json({
 					err
@@ -65,20 +90,60 @@ const api = (app, db) => {
 		});
 	});
 
-	app.get('/comments', (req, res) => {
-		db.db().collection('comments').find({}).sort({ _id: -1 }).toArray((err, comments) => {
+	app.get('/comments/:task_id', (req, res) => {
+
+		db.db().collection('comments').aggregate([
+			{
+				$lookup: {
+					from: 'tasks',
+					localField: 'task_id',
+					foreignField: '_id',
+					as: 'task'
+				}
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'user_id',
+					foreignField: '_id',
+					as: 'user'
+				}
+			},
+			{
+				$match: {
+					'task._id': new objectID(req.params.task_id)
+				}
+			},
+			{
+				$project: {
+					task_id: false,
+					user_id: false
+				}
+			},
+			{
+				$project: {
+					'task.user_id': false
+				}
+			},
+			{
+				$project: {
+					'user.password': false,
+					'user.email': false
+				}
+			}
+		]).toArray((err, comments) => {
 			if (err) {
-				return res.status(500).json({
+				return res.status(400).json({
 					err
 				});
 			}
-
-			res.status(200).json(comments);
+			return res.status(200).json(comments);
 		});
 	});
 
 	app.post('/comments', tokenVerification, (req, res) => {
-		db.db().collection('comments').insertOne(req.body, (err, comment) => {
+		const taskComment = { user_id: new objectID(req.user._id), task_id: new objectID(req.body.task_id), body: req.body.body, created_at: new Date() };
+		db.db().collection('comments').insertOne(taskComment, (err, comment) => {
 			if (err) {
 				return res.status(500).json({
 					err

@@ -26,6 +26,7 @@ class Login extends React.Component {
 		e.preventDefault();
 		axios.post('http://localhost:3001/login', this.state).then(response => {
 			console.log(response.data);
+			window.localStorage.setItem('token', response.data.token);
 		})
 		.catch(err => console.log(err));
 	}

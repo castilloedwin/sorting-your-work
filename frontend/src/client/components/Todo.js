@@ -16,6 +16,8 @@ class Todo extends React.Component {
 		}
 		this.handleAddTask = this.handleAddTask.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		axios.defaults.headers.post['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
+		axios.defaults.headers.post['Referrer-Policy'] = 'origin';
 	}
 
 	handleChange(e) {
@@ -66,7 +68,15 @@ class Todo extends React.Component {
 	}
 
 	render() {
-		let taskComponents = this.state.tasks.map( task => <Task key={task._id} id={task._id} title={task.title} description={task.description} triggerGetTasks={this.getTasks.bind(this)} triggerMessage={this.showAndRemoveMessage.bind(this)} /> );
+		let taskComponents = this.state.tasks.map( task => {
+			return <Task key={task._id}
+				  task={task}
+				  triggerGetTasks={this.getTasks.bind(this)}
+				  triggerMessage={this.showAndRemoveMessage.bind(this)}
+				  comments={this.getComments}
+			/>
+		});
+
 		let notification = this.state.message.length ? <Notification message={this.state.message} /> : '';
 		return (
 			<div id="todo">
