@@ -157,6 +157,27 @@ const api = (app, db) => {
 		});
 	});
 
+	app.delete('/comments/:id', tokenVerification, (req, res) => {
+		db.db().collection('comments').deleteOne({ _id: new objectID(req.params.id), user_id: new objectID(req.user._id) }, (err, comment) => {
+			if (err) {
+				return res.status(500).json({
+					err
+				});
+			}
+
+			if ( comment.result.n == false ) {
+				return res.status(401).json({
+					message: 'No puedes borrar este comentario porque no es tuyo'
+				});
+			}
+
+			return res.status(200).json({
+				message: 'Comentario eliminado',
+				status: 200
+			});
+		});
+	});
+
 	app.post('/register', (req, res) => {
 		let { username, password } = req.body;
 		

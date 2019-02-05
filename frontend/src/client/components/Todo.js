@@ -17,6 +17,7 @@ class Todo extends React.Component {
 		this.handleAddTask = this.handleAddTask.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		axios.defaults.headers.post['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
+		axios.defaults.headers.delete['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
 		axios.defaults.headers.post['Referrer-Policy'] = 'origin';
 	}
 

@@ -161,6 +161,11 @@ textarea {
 						.comment {
 							padding: 8px 25px;
 
+							.remove-comment {
+								float: right;
+								cursor: pointer;
+							}
+
 							p {
 								font-size: 0.9em;
 							}

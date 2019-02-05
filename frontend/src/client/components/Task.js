@@ -60,7 +60,7 @@ class Task extends React.Component {
 
 	render() {
 
-		let commentComponents = this.state.comments.map( comment => <Comment key={comment._id} comment={comment} /> );
+		let commentComponents = this.state.comments.map( comment => <Comment key={comment._id} comment={comment} triggerMessage={this.props.triggerMessage.bind(this)} triggerGetComments={this.getComments.bind(this)} /> );
 
 		return(
 			<li>
