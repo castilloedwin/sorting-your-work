@@ -21,7 +21,7 @@ class Comment extends React.Component {
 		return(
 			<div className="comment">
 				<i className="remove-comment" onClick={this.handleRemoveComment}>x</i>
-				<small><b>{this.props.comment.user[0].name}</b> | <i>{this.props.comment.created_at}</i></small>
+				<small><b>{this.props.comment.user[0].name}</b> | <i>{new Date(this.props.comment.created_at).toLocaleString('es-ES')}</i></small>
 				<p>{this.props.comment.body}</p>
 			</div>
 		);
