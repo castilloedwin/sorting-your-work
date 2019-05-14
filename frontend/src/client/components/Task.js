@@ -32,9 +32,9 @@ class Task extends React.Component {
 	}
 
 	handleAddComment(e) {
-		e.persist(); // Si se va a usar el objeto event dentro de una promesa, es necesario usar este método al inicio de la función.
+		e.persist(); // If you're going to use event object into of a promise, it's necessary to use this method at beginning the function.
 		if ( !this.state.body ) {
-			return this.props.triggerMessage('Escribe un comentario...');
+			return this.props.triggerMessage('Say Something');
 		}
 		axios.post('http://localhost:3001/comments', { task_id: this.props.task._id, body: this.state.body }).then(response => {
 			this.props.triggerMessage(response.data.message);

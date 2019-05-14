@@ -41,6 +41,9 @@ export default {
 			}
 		]
 	},
+	devServer: {
+		historyApiFallback: true
+	},
 	plugins: [
 		new htmlWebpackPlugin({
 			template: path.join(__dirname, '/src/client/index.html')

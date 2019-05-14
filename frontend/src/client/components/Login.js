@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
 
@@ -8,7 +9,8 @@ class Login extends React.Component {
 		super();
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			loggedIn: false
 		}
 
 		this.handleChange = this.handleChange.bind(this);
@@ -27,6 +29,7 @@ class Login extends React.Component {
 		axios.post('http://localhost:3001/login', this.state).then(response => {
 			console.log(response.data);
 			window.localStorage.setItem('token', response.data.token);
+			window.location = '/';
 		})
 		.catch(err => console.log(err));
 	}

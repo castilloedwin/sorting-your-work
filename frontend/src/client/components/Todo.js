@@ -16,6 +16,7 @@ class Todo extends React.Component {
 		}
 		this.handleAddTask = this.handleAddTask.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		axios.defaults.headers.get['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
 		axios.defaults.headers.post['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
 		axios.defaults.headers.delete['Authorization'] = 'Bearer ' + window.localStorage.getItem('token');
 		axios.defaults.headers.post['Referrer-Policy'] = 'origin';
@@ -32,7 +33,7 @@ class Todo extends React.Component {
 		e.preventDefault();
 		const { title, description } = this.state;
 		if ( !title || !description ) {
-			return this.showAndRemoveMessage('Es necesario especificar un titulo y una descripción');
+			return this.showAndRemoveMessage('It is necessary to put a title and a description');
 		}
 		axios.post('http://localhost:3001/tasks', { title, description }).then(response => {
 			this.showAndRemoveMessage(response.data.message);
@@ -52,7 +53,11 @@ class Todo extends React.Component {
 				tasks: response.data
 			});
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			console.log(err)
+			window.localStorage.removeItem('token');
+			window.location = '/';
+		});
 	}
 
 	showAndRemoveMessage(message) {

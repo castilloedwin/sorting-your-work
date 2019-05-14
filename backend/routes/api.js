@@ -7,7 +7,7 @@ const api = (app, db) => {
 
 	const tokenVerification = require('../app/middlewares/auth')(db);
 
-	app.get('/tasks', (req, res) => {
+	app.get('/tasks', tokenVerification, (req, res) => {
 		db.db().collection('tasks').aggregate([
 			{
 				$lookup: {
@@ -74,17 +74,23 @@ const api = (app, db) => {
 		});
 	});
 
-	app.delete('/tasks/:id', (req, res) => {
+	app.delete('/tasks/:id', tokenVerification, (req, res) => {
 		const id = req.params.id;
-		db.db().collection('tasks').deleteOne({ _id: new objectID(id) }, (err, task) => {
+		db.db().collection('tasks').deleteOne({ _id: new objectID(id), user_id: new objectID(req.user._id) }, (err, task) => {
 			if (err) {
 				return res.status(200).json({
 					err
 				});
 			}
 
+			if ( task.result.n == false ) {
+				return res.status(401).json({
+					message: 'You cannot delete this task because it is not yours'
+				});
+			}
+
 			return res.status(200).json({
-				message: 'Tarea eliminada',
+				message: 'Task Deleted',
 				status: 200
 			});
 		});
@@ -151,7 +157,7 @@ const api = (app, db) => {
 			}
 
 			res.status(201).json({
-				message: 'Se insertó el comentario correctamente',
+				message: 'It inserted the comment successfully',
 				status: 201
 			});
 		});
@@ -167,12 +173,12 @@ const api = (app, db) => {
 
 			if ( comment.result.n == false ) {
 				return res.status(401).json({
-					message: 'No puedes borrar este comentario porque no es tuyo'
+					message: 'You cannot delete this comment because it is not yours'
 				});
 			}
 
 			return res.status(200).json({
-				message: 'Comentario eliminado',
+				message: 'Comment deleted',
 				status: 200
 			});
 		});
@@ -185,7 +191,7 @@ const api = (app, db) => {
 		
 		if ( password.length <= 5 ) {
 			return res.status(200).json({
-				message: 'La contraseña debe tener más de 5 caracteres'
+				message: 'Password must have at least five characters'
 			});
 		}
 
@@ -208,7 +214,7 @@ const api = (app, db) => {
 			}
 
 			return res.status(200).json({
-				message: 'Usuario creado satisfactoriamente',
+				message: 'User created successfully',
 				user,
 				status: 200
 			});
@@ -225,11 +231,11 @@ const api = (app, db) => {
 				});
 			}
 
-			if ( !user ) return res.status(400).json({ message: 'No se encontró este usuario' });
+			if ( !user ) return res.status(400).json({ message: 'It could not find this user' });
 
 			try {
 				if ( !bcrypt.compareSync(password, user.password) ) {
-					return res.status(400).json({ message: 'La contraseña es incorrecta' });
+					return res.status(400).json({ message: 'Password wrong' });
 				}
 			} catch (err) {
 				return console.log(err);

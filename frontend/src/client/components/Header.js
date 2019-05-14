@@ -3,14 +3,47 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class Header extends React.Component {
+	generateLinks() {
+		if ( localStorage.getItem('token') ) {
+			return [
+				{
+					uri: '/todo',
+					name: 'To do'
+				},
+				{
+					uri: '/salir',
+					name: 'Salir'
+				}
+			];
+		}
+
+		return [
+			{
+				uri: '/',
+				name: 'Home'
+			},
+			{
+				uri: '/login',
+				name: 'Login'
+			},
+			{
+				uri: '/todo',
+				name: 'To do'
+			}
+		];
+	}
+
 	render() {
+
+		let links = this.generateLinks().map((link, index) => {
+			return <li key={index}><Link to={link.uri}>{link.name}</Link></li>
+		});
+
 		return (
 			<header>
-				<h1>Tasks list</h1>
+				<h1>Sorting your work, never it was so easy</h1>
 				<ul>
-					<li><Link to="/">Home</Link></li>
-					<li><Link to="/login">Login</Link></li>
-					<li><Link to="/todo">To do</Link></li>
+					{ links }
 				</ul>
 			</header>
 		);
