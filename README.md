@@ -1,4 +1,4 @@
-# Sorting your work, never it was so easy
+# Sorting your work, it was never so easy
 
 Backend
 
